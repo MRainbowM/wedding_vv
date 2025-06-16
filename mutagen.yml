@@ -1,0 +1,12 @@
+sync:
+  wedding-vv-sync:
+    alpha: ./backend
+    beta: docker://backend-wvv/app
+    mode: two-way-resolved
+    ignore:
+      vcs: true
+      paths:
+        - __pycache__/
+        - .git/
+        - media/
+        - static/

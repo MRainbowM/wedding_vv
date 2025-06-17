@@ -12,13 +12,14 @@
     align-items: center;
     padding-bottom: 342px;
     padding-top: 20px;
+    background-position: center;
 }
 
 .invite {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: var(--font-lagunac);
+    font-family: var(--font-lagunac-bold);
     color: var(--color-white);
     font-size: 80px;
     text-transform: uppercase;
@@ -36,4 +37,51 @@
     font-family: var(--font-denistina);
     color: var(--color-white);
     font-size: 100px;
+}
+
+@media (max-width:1000px) {
+    .invite {
+        font-size: 60px;
+
+        span {
+            max-width: 590px;
+        }
+    }
+
+    .names {
+        font-size: 90px;
+    }
+}
+
+@media (max-width:800px) {
+
+
+    .invite {
+        font-size: 50px;
+
+        span {
+            max-width: 400px;
+        }
+    }
+
+    .names {
+        font-size: 75px;
+    }
+}
+
+@media (max-width:620px) {
+    .root {
+        padding-top: 147px;
+        padding-bottom: 0;
+        justify-content: flex-start;
+    }
+
+    .invite {
+        font-size: 40px;
+    }
+
+    .names {
+        font-size: 48px;
+        margin-top: 10px;
+    }
 }

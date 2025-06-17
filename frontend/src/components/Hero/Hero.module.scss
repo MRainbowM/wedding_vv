@@ -1,0 +1,39 @@
+.root {
+    max-width: var(--container-width);
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 100vh;
+    background-image: url(/images/frame.png);
+    max-height: 1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 342px;
+    padding-top: 20px;
+}
+
+.invite {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-lagunac);
+    color: var(--color-white);
+    font-size: 80px;
+    text-transform: uppercase;
+
+    span {
+        max-width: 650px;
+        text-align: center;
+    }
+}
+
+.names {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-denistina);
+    color: var(--color-white);
+    font-size: 100px;
+}

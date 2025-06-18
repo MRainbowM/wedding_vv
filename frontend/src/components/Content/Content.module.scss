@@ -1,4 +1,7 @@
 .root {
+    --content-height: 1500px;
+
+    height: var(--content-height);
     max-width: var(--container-width);
     margin-left: auto;
     margin-right: auto;
@@ -10,17 +13,18 @@
     overflow: hidden;
 
     color: var(--color-olive-60);
+
+    margin-bottom: -180px;
 }
 
 .circle {
     position: absolute;
     z-index: 1;
-    height: 1493px;
+    height: var(--content-height);
     background-color: var(--color-background);
     border-radius: 100%;
     width: 2455px;
     // background-color: red;
-    background-color: var(--color-background);
 }
 
 .content {
@@ -51,12 +55,12 @@
 
 .oliveLT,
 .oliveRT {
-    margin-top: -35px;
+    margin-top: -85px;
 }
 
 .oliveLB,
 .oliveRB {
-    margin-top: -808px;
+    margin-top: -905px;
 }
 
 .oliveRT,

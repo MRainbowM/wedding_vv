@@ -60,9 +60,9 @@ export default function Form() {
                 {isFormSendSuccess ? (
                     <ResultMessage isCome={isCome} />
                 ) : (<>
-                    <h1 className={styles.title}>
-                        Сможете ли вы посетить<br />мероприятие?
-                    </h1>
+                    <h2 className={styles.title}>
+                        Сможете посетить мероприятие?
+                    </h2>
 
                     <input
                         type="text"
@@ -96,9 +96,10 @@ export default function Form() {
                             <span className={styles.radioOuter}>
                                 <span className={styles.radioInner}></span>
                             </span>
-                            <span>
-                                <b>Со мной будет еще гость(и)</b> (вторая половинка или дети)
-                            </span>
+                            <div>
+                                <span> <b>Со мной будет еще гость(и)</b></span>
+                                <span className={styles.childText}>(вторая половинка или дети)</span>
+                            </div>
                         </label>
                         <label>
                             <input

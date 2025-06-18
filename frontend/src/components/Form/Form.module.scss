@@ -90,6 +90,7 @@
 
         .radioOuter {
             width: 24px;
+            min-width: 24px;
             height: 24px;
             border: 1px solid var(--color-olive-100); // зелёная рамка
             border-radius: 50%;
@@ -155,16 +156,26 @@
 }
 
 @media (max-width:850px) {
+    .root {
+        padding: 0;
+        background-image: url(/images/frame-m.png);
+    }
+
     .form {
-        max-width: calc(100vw - 30px - 30px);
+        max-width: calc(100vw - 17px);
+        min-height: 510px;
+        margin-top: 210px;
+        padding: 25px;
     }
 
     .title {
         font-size: 28px;
+        text-transform: unset;
     }
 
     .input {
         height: 49px;
+        margin-bottom: 0;
 
         &::placeholder {
             font-size: 14px;
@@ -173,24 +184,32 @@
     }
 
     .options {
+        gap: 7px;
+
         label {
             font-size: 16px;
-
-            .radioOuter {
-                width: 20px;
-                min-width: 20px;
-                height: 20px;
-            }
-
-            .radioInner {
-                width: 13px;
-                height: 13px;
-            }
+            padding-left: 0;
+            line-height: 1;
         }
     }
 
     .button {
         height: 45px;
         font-size: 18px;
+    }
+
+    .resultForm {
+        min-height: unset;
+    }
+
+    .childText {
+        font-size: 11px;
+    }
+}
+
+@media (max-width:650px) {
+    .root {
+        background-image: url(/images/frame-b-m.png);
+        min-height: 800px;
     }
 }

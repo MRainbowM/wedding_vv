@@ -1,7 +1,8 @@
 'use client';
+import ResultMessage from '../ResultMessage/ResultMessage';
 import styles from './Form.module.scss';
 import { useState } from 'react';
-
+import clsx from 'clsx';
 
 export default function Form() {
     const [formData, setFormData] = useState({
@@ -20,9 +21,9 @@ export default function Form() {
         }));
     };
 
-    const [isCome, setIsCome] = useState<string | null>(null);
 
-    console.log(`https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_ID}/exec`);
+    const [isFormSendSuccess, setIsFormSendSuccess] = useState<boolean>(false);
+    const [isCome, setIsCome] = useState<boolean>(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -36,13 +37,14 @@ export default function Form() {
             });
 
             if (response.ok) {
+                setIsFormSendSuccess(true);
                 setStatus('success');
                 setFormData({ name: '', guestName: '', attendance: '' });
 
                 if (formData.attendance === 'cantCome') {
-                    setIsCome('Очень жаль...');
+                    setIsCome(false);
                 } else {
-                    setIsCome('Будем вас ждать!');
+                    setIsCome(true);
                 }
             } else {
                 setStatus('error');
@@ -54,14 +56,10 @@ export default function Form() {
 
     return (
         <div className={styles.root}>
-            {isCome ? (
-                <div className={styles.message}>
-                    <h2>{isCome}</h2>
-                </div>
-            ) : (
-
-
-                <form onSubmit={handleSubmit} className={styles.form}>
+            <form onSubmit={handleSubmit} className={clsx(styles.form, { [styles.resultForm]: isFormSendSuccess })}>
+                {isFormSendSuccess ? (
+                    <ResultMessage isCome={isCome} />
+                ) : (<>
                     <h1 className={styles.title}>
                         Сможете ли вы посетить<br />мероприятие?
                     </h1>
@@ -137,8 +135,9 @@ export default function Form() {
                     {status === 'error' && (
                         <p className={styles.error}>Ошибка при отправке. Попробуйте позже.</p>
                     )}
-                </form>
-            )}
+                </>)}
+            </form>
+
         </div>
     );
 }

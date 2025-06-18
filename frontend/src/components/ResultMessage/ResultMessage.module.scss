@@ -1,3 +1,23 @@
-.root{
-    
+.root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+}
+
+.title {
+    font-family: var(--font-lagunac-bold);
+    color: var(--color-olive-100);
+    font-size: 52px;
+    margin-bottom: 40px;
+}
+
+.text {
+    font-family: var(--font-lagunac-bold);
+    color: var(--color-olive-100);
+    font-size: 28px;
 }

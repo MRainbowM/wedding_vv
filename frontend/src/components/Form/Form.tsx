@@ -20,7 +20,7 @@ export default function Form() {
         }));
     };
 
-    const [submittedMessage, setSubmittedMessage] = useState<string | null>(null);
+    const [isCome, setIsCome] = useState<string | null>(null);
 
     console.log(`https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_ID}/exec`);
 
@@ -40,9 +40,9 @@ export default function Form() {
                 setFormData({ name: '', guestName: '', attendance: '' });
 
                 if (formData.attendance === 'cantCome') {
-                    setSubmittedMessage('Очень жаль...');
+                    setIsCome('Очень жаль...');
                 } else {
-                    setSubmittedMessage('Будем вас ждать!');
+                    setIsCome('Будем вас ждать!');
                 }
             } else {
                 setStatus('error');
@@ -52,14 +52,11 @@ export default function Form() {
         }
     };
 
-
-
-
     return (
         <div className={styles.root}>
-            {submittedMessage ? (
+            {isCome ? (
                 <div className={styles.message}>
-                    <h2>{submittedMessage}</h2>
+                    <h2>{isCome}</h2>
                 </div>
             ) : (
 

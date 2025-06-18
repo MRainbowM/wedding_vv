@@ -6,6 +6,7 @@ import { useState } from 'react';
 export default function Form() {
     const [formData, setFormData] = useState({
         name: '',
+        guestName: '',
         attendance: '',
     });
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +37,17 @@ export default function Form() {
                     onChange={handleChange}
                     className={styles.input}
                 />
+
+                {formData.attendance === 'withGuests' && (
+                    <input
+                        className={styles.input}
+                        type="text"
+                        name="guestName"
+                        placeholder="Имя вашего гостя"
+                        value={formData.guestName}
+                        onChange={handleChange}
+                    />
+                )}
 
                 <div className={styles.options}>
                     <label>

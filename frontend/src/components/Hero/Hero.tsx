@@ -11,5 +11,5 @@ export default function Hero() {
                 <span>Вадима и Виктории</span>
             </div>
         </div>
-    )
+    );
 }

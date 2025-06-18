@@ -1,0 +1,122 @@
+.root {
+    max-width: var(--container-width);
+    min-height: 100vh;
+    background: url('/leaves-blur.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.form {
+    width: 888px;
+    background-color: #fdf5eb;
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-height: 600px;
+}
+
+.title {
+    text-align: center;
+    font-family: var(--font-lagunac-bold);
+    font-size: 52px;
+    color: var(--color-olive-100);
+    line-height: 1.1;
+    margin-bottom: auto;
+}
+
+.input {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    border: none;
+    background: #fff;
+    color: #4a4a4a;
+    font-size: 1rem;
+    height: 60px;
+    margin-bottom: 10px;
+
+    &::placeholder {
+        color: #bbb;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-weight: 500;
+    color: var(--color-olive-100);
+
+    label {
+        display: flex;
+        gap: 0.75rem;
+        align-items: flex-start;
+        font-family: var(--font-montserrat);
+        font-style: italic;
+        font-size: 16px;
+        height: 42px;
+        position: relative;
+        padding-left: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        user-select: none;
+
+        input[type='radio'] {
+            display: none;
+        }
+
+        .radioOuter {
+            width: 24px;
+            height: 24px;
+            border: 1px solid var(--color-olive-100); // зелёная рамка
+            border-radius: 50%;
+            background: white; // белый промежуток
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .radioInner {
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            background-color: var(--color-olive-100); // зелёная точка внутри
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        input[type='radio']:checked+.radioOuter .radioInner {
+            opacity: 1;
+        }
+    }
+}
+
+.button {
+    width: 100%;
+    height: 67px;
+    background-color: var(--color-olive-100);
+    color: var(--color-white);
+    font-family: var(--font-lagunac-bold);
+    font-size: 24px;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-transform: uppercase;
+
+    &:hover {
+        background-color: #8a956d;
+    }
+}

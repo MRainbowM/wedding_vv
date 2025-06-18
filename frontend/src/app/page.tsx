@@ -1,4 +1,5 @@
 import Content from "@/components/Content/Content";
+import Form from "@/components/Form/Form";
 import Hero from "@/components/Hero/Hero";
 
 
@@ -7,6 +8,7 @@ export default function MainPage() {
     <div>
       <Hero />
       <Content />
+      <Form />
     </div>
   );
 }

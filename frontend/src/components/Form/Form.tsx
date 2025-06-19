@@ -53,6 +53,7 @@ export default function Form() {
             }
         } catch (error) {
             setStatus('error');
+            console.log(error);
         }
     };
 

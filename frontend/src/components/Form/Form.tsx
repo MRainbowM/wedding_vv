@@ -5,47 +5,49 @@ import { useState } from 'react';
 import clsx from 'clsx';
 
 export default function Form() {
-    const [formData, setFormData] = useState({
-        name: '',
-        guestName: '',
-        attendance: '',
-    });
-
+    const [name, setName] = useState('');
+    const [guestNames, setGuestNames] = useState<string[]>([]);
+    const [attendance, setAttendance] = useState<'come' | 'cantCome' | ''>('');
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
-
-
     const [isFormSendSuccess, setIsFormSendSuccess] = useState<boolean>(false);
     const [isCome, setIsCome] = useState<boolean>(false);
+
+    const handleGuestChange = (index: number, value: string) => {
+        const updatedGuests = [...guestNames];
+        updatedGuests[index] = value;
+        setGuestNames(updatedGuests);
+    };
+
+    const addGuestField = () => {
+        setGuestNames([...guestNames, '']);
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setStatus('loading');
 
+        const guestString = guestNames.filter(Boolean).join('; ');
+
+        const payload = {
+            name,
+            guests: guestString,
+            attendance: attendance === 'come' ? 'приду' : 'не приду',
+        };
+
         try {
             const response = await fetch('/api/send', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(payload),
             });
 
             if (response.ok) {
-                setIsFormSendSuccess(true);
                 setStatus('success');
-                setFormData({ name: '', guestName: '', attendance: '' });
-
-                if (formData.attendance === 'cantCome') {
-                    setIsCome(false);
-                } else {
-                    setIsCome(true);
-                }
+                setIsFormSendSuccess(true);
+                setIsCome(attendance === 'come');
+                setName('');
+                setGuestNames([]);
+                setAttendance('');
             } else {
                 setStatus('error');
             }
@@ -59,86 +61,78 @@ export default function Form() {
             <form onSubmit={handleSubmit} className={clsx(styles.form, { [styles.resultForm]: isFormSendSuccess })}>
                 {isFormSendSuccess ? (
                     <ResultMessage isCome={isCome} />
-                ) : (<>
-                    <h2 className={styles.title}>
-                        Сможете посетить мероприятие?
-                    </h2>
+                ) : (
+                    <>
+                        <h2 className={styles.title}>Сможете посетить <br/> мероприятие?</h2>
 
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="Ваше имя и фамилия"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className={styles.input}
-                    />
-
-                    {formData.attendance === 'withGuests' && (
                         <input
-                            className={styles.input}
                             type="text"
-                            name="guestName"
-                            placeholder="Имя вашего гостя"
-                            value={formData.guestName}
-                            onChange={handleChange}
+                            name="name"
+                            placeholder="Ваше имя и фамилия"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className={styles.input}
+                            required
                         />
-                    )}
 
-                    <div className={styles.options}>
-                        <label>
+                        {guestNames.map((guest, index) => (
                             <input
-                                type="radio"
-                                name="attendance"
-                                value="withGuests"
-                                checked={formData.attendance === 'withGuests'}
-                                onChange={handleChange}
+                                key={index}
+                                type="text"
+                                placeholder={`Имя гостя ${index + 1}`}
+                                value={guest}
+                                onChange={(e) => handleGuestChange(index, e.target.value)}
+                                className={styles.input}
                             />
-                            <span className={styles.radioOuter}>
-                                <span className={styles.radioInner}></span>
-                            </span>
-                            <div>
-                                <span> <b>Со мной будет еще гость(и)</b></span>
-                                <span className={styles.childText}>(вторая половинка или дети)</span>
-                            </div>
-                        </label>
-                        <label>
-                            <input
-                                type="radio"
-                                name="attendance"
-                                value="alone"
-                                checked={formData.attendance === 'alone'}
-                                onChange={handleChange}
-                            />
-                            <span className={styles.radioOuter}>
-                                <span className={styles.radioInner}></span>
-                            </span>
-                            <span><b>Буду на свадьбе</b></span>
-                        </label>
-                        <label>
-                            <input
-                                type="radio"
-                                name="attendance"
-                                value="cantCome"
-                                checked={formData.attendance === 'cantCome'}
-                                onChange={handleChange}
-                            />
-                            <span className={styles.radioOuter}>
-                                <span className={styles.radioInner}></span>
-                            </span>
-                            <span><b>Не смогу прийти</b></span>
-                        </label>
-                    </div>
+                        ))}
 
-                    <button type="submit" className={styles.button} disabled={status === 'loading'}>
-                        {status === 'loading' ? 'Отправка...' : 'ОТПРАВИТЬ'}
-                    </button>
+                        <button
+                            type="button"
+                            className={styles.addGuestButton}
+                            onClick={addGuestField}
+                        >
+                            <span>Со мной +1 (пара или ребенок)</span>
+                        </button>
 
-                    {status === 'error' && (
-                        <p className={styles.error}>Ошибка при отправке. Попробуйте позже.</p>
-                    )}
-                </>)}
+                        <div className={styles.options}>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="attendance"
+                                    value="come"
+                                    checked={attendance === 'come'}
+                                    onChange={() => setAttendance('come')}
+                                />
+                                <span className={styles.radioOuter}>
+                                    <span className={styles.radioInner}></span>
+                                </span>
+                                <span>Буду на свадьбе</span>
+                            </label>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="attendance"
+                                    value="cantCome"
+                                    checked={attendance === 'cantCome'}
+                                    onChange={() => setAttendance('cantCome')}
+                                />
+                                <span className={styles.radioOuter}>
+                                    <span className={styles.radioInner}></span>
+                                </span>
+                                <span>Не смогу прийти</span>
+                            </label>
+                        </div>
+
+                        <button type="submit" className={styles.button} disabled={status === 'loading'}>
+                            {status === 'loading' ? 'Отправка...' : 'ОТПРАВИТЬ'}
+                        </button>
+
+                        {status === 'error' && (
+                            <p className={styles.error}>Ошибка при отправке. Попробуйте позже.</p>
+                        )}
+                    </>
+                )}
             </form>
-
         </div>
     );
 }

@@ -1,17 +1,29 @@
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
-    const formData = await req.json();
+  try {
+    const body = await req.json();
+    const { name, guests, attendance } = body;
 
-    const response = await fetch(`https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_ID}/exec`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+    const scriptURL = `https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_ID}/exec`;
+
+    const res = await fetch(scriptURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, guests, attendance }),
     });
 
-    if (!response.ok) {
-        return NextResponse.json({ success: false }, { status: 500 });
+    if (!res.ok) {
+      const text = await res.text();
+      console.error('Google Script Error:', text);
+      return NextResponse.json({ error: 'Google Script request failed' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error('API error:', err);
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  }
 }
